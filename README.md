@@ -153,18 +153,15 @@ Classic references:
 
 ### AI usage
 
-AI was used as a development assistant for specific parts of the project:
+Artificial intelligence tools were used during the development of this project to assist with:
 
-- `parse.c` and `numeric.c`: argument validation and numeric edge cases;
-- `heap.c`, `heap_ops.c` and `scheduler.c`: FIFO/EDF priority ordering, queue operations and arbitration;
-- `request.c`, `acquire.c` and `dongle.c`: request synchronization, atomic pair acquisition and cooldown handling;
-- `monitor.c`, `deadline.c` and `time.c`: burnout deadlines, timed waits and timestamp handling;
-- `sync.c`, `stop.c`, `lifecycle.c` and `threads.c`: mutex/condition-variable synchronization and thread lifecycle;
-- README documentation and reference test scenarios.
+* brainstorming implementation ideas;
+* improving documentation and README structure;
+* reviewing code quality;
+* identifying potential bugs and edge cases;
+* debugging and understanding error messages.
 
-The final implementation was reviewed, compiled and tested by the project author.
-
-All generated material was reviewed, compiled, tested and understood as required by the project instructions. The implementation decisions remain the responsibility of the project author.
+All architectural decisions, implementation, debugging, testing and final validation were performed and reviewed by the project author.
 
 ## Evaluation-oriented checklist
 
