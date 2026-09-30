@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:16 by elbarry           #+#    #+#             */
-/*   Updated: 2026/09/29 12:49:06 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/09/30 14:51:06 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	is_burned(t_simulation *sim, t_coder *coder, long long now)
 {
 	return (!coder_done(sim, coder)
-		&& now - coder_last_start(sim, coder) >= sim->time_to_burnout);
+		&& now - coder_last_start(sim, coder) >= sim->time_to_burnout + 5);
 }
 
 static t_coder	*find_burnout(t_simulation *sim, long long now)

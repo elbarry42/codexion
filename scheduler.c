@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:40 by elbarry           #+#    #+#             */
-/*   Updated: 2026/09/29 12:45:01 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/09/30 14:50:25 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_request	*find_ready_request(t_simulation *sim,
 {
 	t_request	*best;
 	long long	now;
-	size_t		i;
+	size_t	i;
 
 	best = NULL;
 	now = monotonic_ms();

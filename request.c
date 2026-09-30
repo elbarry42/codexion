@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:35 by elbarry           #+#    #+#             */
-/*   Updated: 2026/09/29 10:40:36 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/09/30 16:24:54 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ int	request_dongles(t_coder	*coder)
 	sim = coder->sim;
 	if (simulation_stopped(sim))
 		return (0);
+	pthread_mutex_lock(&coder->cond_mutex);
+	coder->granted = 0;
+	pthread_mutex_unlock(&coder->cond_mutex);
 	pthread_mutex_lock(&sim->queue_mutex);
 	coder->request.sequence = sim->next_sequence++;
 	coder->request.deadline = coder->last_compile_start + sim->time_to_burnout;
 	coder->request.active = 1;
 	coder->waiting = 1;
-	coder->granted = 0;
 	if (heap_push(&sim->queue, &coder->request))
 	{
 		coder->request.active = 0;
@@ -34,23 +36,26 @@ int	request_dongles(t_coder	*coder)
 		return (0);
 	}
 	pthread_cond_signal(&sim->queue_cond);
+	pthread_mutex_unlock(&sim->queue_mutex);
 	return (wait_for_grant(coder));
 }
 
-int	wait_for_grant(t_coder	*coder)
+int	wait_for_grant(t_coder *coder)
 {
 	t_simulation	*sim;
 
 	sim = coder->sim;
+	pthread_mutex_lock(&coder->cond_mutex);
 	while (!coder->granted)
 	{
-		cond_wait_ms(&coder->cond, &sim->queue_mutex, 5);
-		pthread_mutex_unlock(&sim->queue_mutex);
+		cond_wait_ms(&coder->cond, &coder->cond_mutex, 5);
+		pthread_mutex_unlock(&coder->cond_mutex);
 		if (simulation_stopped(sim))
 			return (0);
-		pthread_mutex_lock(&sim->queue_mutex);
+		pthread_mutex_lock(&coder->cond_mutex);
 	}
-	pthread_mutex_unlock(&sim->queue_mutex);
+	coder->granted = 0;
+	pthread_mutex_unlock(&coder->cond_mutex);
 	return (1);
 }
 

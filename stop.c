@@ -29,7 +29,9 @@ static void	wake_coders(t_simulation	*sim)
 	i = 0;
 	while (i < sim->coder_count)
 	{
+		pthread_mutex_lock(&sim->coders[i].cond_mutex);
 		pthread_cond_broadcast(&sim->coders[i].cond);
+		pthread_mutex_unlock(&sim->coders[i].cond_mutex);
 		i++;
 	}
 }
@@ -42,6 +44,6 @@ void	request_stop(t_simulation	*sim)
 	pthread_mutex_unlock(&sim->state_mutex);
 	pthread_mutex_lock(&sim->queue_mutex);
 	pthread_cond_broadcast(&sim->queue_cond);
-	wake_coders(sim);
 	pthread_mutex_unlock(&sim->queue_mutex);
+	wake_coders(sim);
 }

@@ -29,13 +29,15 @@ static void	wake_all(t_simulation *sim)
 
 	pthread_mutex_lock(&sim->queue_mutex);
 	pthread_cond_broadcast(&sim->queue_cond);
+	pthread_mutex_unlock(&sim->queue_mutex);
 	i = 0;
 	while (i < sim->coder_count)
 	{
+		pthread_mutex_lock(&sim->coders[i].cond_mutex);
 		pthread_cond_broadcast(&sim->coders[i].cond);
+		pthread_mutex_unlock(&sim->coders[i].cond_mutex);
 		i++;
 	}
-	pthread_mutex_unlock(&sim->queue_mutex);
 }
 
 void	stop_and_wake(t_simulation *sim)
