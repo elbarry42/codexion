@@ -21,6 +21,8 @@ static void	destroy_coder_conds(t_simulation	*sim)
 	{
 		if (sim->coders[i].cond_initialized)
 			pthread_cond_destroy(&sim->coders[i].cond);
+		if (sim->coders[i].cond_mutex_initialized)
+			pthread_mutex_destroy(&sim->coders[i].cond_mutex);
 		i++;
 	}
 }

@@ -38,9 +38,11 @@ int	grant_request(t_simulation	*sim, t_request	*request)
 	pthread_mutex_lock(&sim->queue_mutex);
 	request->active = 0;
 	coder->waiting = 0;
+	pthread_mutex_unlock(&sim->queue_mutex);
+	pthread_mutex_lock(&coder->cond_mutex);
 	coder->granted = 1;
 	pthread_cond_signal(&coder->cond);
-	pthread_mutex_unlock(&sim->queue_mutex);
+	pthread_mutex_unlock(&coder->cond_mutex);
 	return (1);
 }
 

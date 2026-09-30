@@ -59,7 +59,9 @@ typedef struct s_coder
 	int				id;
 	pthread_t		thread;
 	pthread_cond_t	cond;
+	pthread_mutex_t	cond_mutex;
 	int				cond_initialized;
+	int				cond_mutex_initialized;
 	t_simulation	*sim;
 	t_request		request;
 	long long		last_compile_start;

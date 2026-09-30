@@ -49,6 +49,9 @@ static int	init_coder(t_simulation *sim, int i)
 	if (pthread_cond_init(&sim->coders[i].cond, NULL))
 		return (1);
 	sim->coders[i].cond_initialized = 1;
+	if (pthread_mutex_init(&sim->coders[i].cond_mutex, NULL))
+		return (1);
+	sim->coders[i].cond_mutex_initialized = 1;
 	return (0);
 }
 
