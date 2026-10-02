@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:39:49 by elbarry           #+#    #+#             */
-/*   Updated: 2026/10/02 14:31:47 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/02 16:04:36 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	heap_init(t_heap *heap, size_t capacity, int scheduler)
 {
-	if (capacity < 1)
+	if (capacity < 1 || capacity > (size_t)-1 / sizeof(*heap->items))
 		return (1);
 	heap->items = malloc(capacity * sizeof(*heap->items));
 	if (heap->items)

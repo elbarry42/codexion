@@ -6,11 +6,20 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:10 by elbarry           #+#    #+#             */
-/*   Updated: 2026/10/02 14:31:47 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/02 16:05:07 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+static void	start_error(t_simulation *sim)
+{
+	stop_and_wake(sim);
+	join_threads(sim);
+	if (sim->thread_creation_failed)
+		fprintf(stderr, "Error: unable to create all coder threads\n");
+	destroy_simulation(sim);
+}
 
 int	main(int argc, char **argv)
 {
@@ -27,9 +36,7 @@ int	main(int argc, char **argv)
 	}
 	if (start_threads(&sim))
 	{
-		stop_and_wake(&sim);
-		join_threads(&sim);
-		destroy_simulation(&sim);
+		start_error(&sim);
 		return (1);
 	}
 	join_threads(&sim);

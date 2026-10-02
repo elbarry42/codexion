@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:05 by elbarry           #+#    #+#             */
-/*   Updated: 2026/10/02 14:31:47 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/02 16:05:46 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	wake_all(t_simulation *sim)
 	pthread_cond_broadcast(&sim->queue_cond);
 	pthread_mutex_unlock(&sim->queue_mutex);
 	i = 0;
-	while (i < sim->coder_count)
+	while (i < sim->coder_threads_created)
 	{
 		pthread_mutex_lock(&sim->coders[i].cond_mutex);
 		pthread_cond_broadcast(&sim->coders[i].cond);
@@ -74,10 +74,9 @@ void	join_threads(t_simulation *sim)
 	int	i;
 
 	i = 0;
-	while (i < sim->coder_count)
+	while (i < sim->coder_threads_created)
 	{
-		if (sim->coders[i].thread)
-			pthread_join(sim->coders[i].thread, NULL);
+		pthread_join(sim->coders[i].thread, NULL);
 		i++;
 	}
 	if (sim->monitor_thread_created)

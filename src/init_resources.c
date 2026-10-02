@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:00 by elbarry           #+#    #+#             */
-/*   Updated: 2026/10/02 14:31:47 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/02 16:04:50 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ int	init_resources(t_simulation *sim)
 {
 	int	i;
 
+	if ((size_t)sim->coder_count > (size_t)-1 / sizeof(*sim->dongles)
+		|| (size_t)sim->coder_count > (size_t)-1 / sizeof(*sim->coders))
+		return (1);
 	sim->dongles = malloc(sim->coder_count * sizeof(*sim->dongles));
 	sim->coders = malloc(sim->coder_count * sizeof(*sim->coders));
 	if (sim->dongles)
