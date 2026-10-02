@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:00 by elbarry           #+#    #+#             */
-/*   Updated: 2026/10/02 16:04:50 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/02 17:32:18 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,32 @@ static int	init_coder(t_simulation *sim, int i)
 	return (0);
 }
 
+static int	resources_too_large(t_simulation *sim)
+{
+	unsigned long long	count;
+	unsigned long long	total;
+
+	count = (unsigned long long)sim->coder_count;
+	if (count > 1073741824ULL / sizeof(*sim->coders))
+		return (1);
+	if (count > 1073741824ULL / sizeof(*sim->dongles))
+		return (1);
+	if (count > 1073741824ULL / sizeof(t_request *))
+		return (1);
+	total = count * sizeof(*sim->coders);
+	total += count * sizeof(*sim->dongles);
+	total += count * sizeof(t_request *);
+	return (total > 1073741824ULL);
+}
+
 int	init_resources(t_simulation *sim)
 {
 	int	i;
 
-	if ((size_t)sim->coder_count > (size_t)-1 / sizeof(*sim->dongles)
-		|| (size_t)sim->coder_count > (size_t)-1 / sizeof(*sim->coders))
+	if (resources_too_large(sim))
+	{
 		return (1);
+	}
 	sim->dongles = malloc(sim->coder_count * sizeof(*sim->dongles));
 	sim->coders = malloc(sim->coder_count * sizeof(*sim->coders));
 	if (sim->dongles)
@@ -69,7 +88,10 @@ int	init_resources(t_simulation *sim)
 	if (sim->coders)
 		memset(sim->coders, 0, sim->coder_count * sizeof(*sim->coders));
 	if (!sim->dongles || !sim->coders)
+	{
+		fprintf(stderr, "Error: too many coders for available resources\\n");
 		return (1);
+	}
 	i = 0;
 	while (i < sim->coder_count)
 	{
