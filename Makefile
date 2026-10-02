@@ -1,21 +1,29 @@
 NAME = codexion
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread -Iheader
 
-SRCS = main.c parse.c numeric.c time.c heap.c heap_ops.c heap_remove.c sync.c stop.c dongle.c acquire.c scheduler.c scheduler_ops.c wait.c wait_resources.c \
-	coder.c coder_state.c request.c monitor.c deadline.c lifecycle.c threads.c init_resources.c cleanup.c
-OBJS = $(SRCS:.c=.o)
+SRCS = src/main.c src/parse.c src/numeric.c src/time.c src/heap.c \
+	src/heap_ops.c src/heap_remove.c src/sync.c src/stop.c src/dongle.c \
+	src/acquire.c src/scheduler.c src/scheduler_ops.c src/wait.c \
+	src/wait_resources.c src/coder.c src/coder_state.c src/request.c \
+	src/monitor.c src/deadline.c src/lifecycle.c src/threads.c \
+	src/init_resources.c src/cleanup.c
+
+OBJS = $(SRCS:src/%.c=.obj/%.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-%.o: %.c codexion.h
+.obj:
+	mkdir -p .obj
+
+.obj/%.o: src/%.c header/codexion.h | .obj
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -rf .obj
 
 fclean: clean
 	rm -f $(NAME)
