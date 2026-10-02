@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heap_remove.c                                      :+:      :+:    :+:   */
+/*   coder_state.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:39:00 by elbarry           #+#    #+#             */
-/*   Updated: 2026/09/29 10:39:00 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/02 14:31:47 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-t_request	*heap_remove_at(t_heap	*heap, size_t	index)
+int	coder_done(t_simulation	*sim, t_coder	*coder)
 {
-	t_request	*result;
+	int	done;
 
-	if (index >= heap->size)
-		return (NULL);
-	result = heap->items[index];
-	heap->size--;
-	if (index != heap->size)
-	{
-		heap->items[index] = heap->items[heap->size];
-		heap->items[heap->size] = NULL;
-		if (index > 0
-			&& heap_request_before(heap, heap->items[index],
-				heap->items[(index - 1) / 2]))
-			heap_sift_up(heap, index);
-		else
-			heap_sift_down(heap, index);
-	}
-	else
-		heap->items[index] = NULL;
-	return (result);
+	pthread_mutex_lock(&sim->state_mutex);
+	done = coder->done;
+	pthread_mutex_unlock(&sim->state_mutex);
+	return (done);
+}
+
+long long	coder_last_start(t_simulation	*sim, t_coder	*coder)
+{
+	long long	start;
+
+	pthread_mutex_lock(&sim->queue_mutex);
+	start = coder->last_compile_start;
+	pthread_mutex_unlock(&sim->queue_mutex);
+	return (start);
 }
