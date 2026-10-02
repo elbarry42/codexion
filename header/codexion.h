@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:39:33 by elbarry           #+#    #+#             */
-/*   Updated: 2026/09/29 13:17:22 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/02 16:07:01 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ typedef struct s_simulation
 	pthread_t			monitor_thread;
 	int					scheduler_thread_created;
 	int					monitor_thread_created;
+	int					coder_threads_created;
+	int					thread_creation_failed;
 	t_dongle			*dongles;
 	t_coder				*coders;
 	t_heap				queue;
