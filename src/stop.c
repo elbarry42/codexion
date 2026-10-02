@@ -6,13 +6,13 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:45 by elbarry           #+#    #+#             */
-/*   Updated: 2026/10/02 16:05:25 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/02 16:56:46 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	simulation_stopped(t_simulation *sim)
+int	simulation_stopped(t_simulation	*sim)
 {
 	int	stopped;
 
@@ -22,7 +22,7 @@ int	simulation_stopped(t_simulation *sim)
 	return (stopped);
 }
 
-static void	wake_coders(t_simulation *sim)
+static void	wake_coders(t_simulation	*sim)
 {
 	int	i;
 
@@ -36,7 +36,7 @@ static void	wake_coders(t_simulation *sim)
 	}
 }
 
-void	request_stop(t_simulation *sim)
+void	request_stop(t_simulation	*sim)
 {
 	pthread_mutex_lock(&sim->state_mutex);
 	sim->stopped = 1;

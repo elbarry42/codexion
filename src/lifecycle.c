@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:05 by elbarry           #+#    #+#             */
-/*   Updated: 2026/10/02 16:05:46 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/02 17:25:45 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	init_simulation(t_simulation *sim)
 {
 	if (init_sync(sim))
 		return (1);
-	if (heap_init(&sim->queue, sim->coder_count, sim->scheduler))
-		return (1);
 	if (init_resources(sim))
+		return (1);
+	if (heap_init(&sim->queue, sim->coder_count, sim->scheduler))
 		return (1);
 	return (0);
 }
@@ -60,13 +60,15 @@ int	start_threads(t_simulation *sim)
 		sim->coders[i].last_compile_start = sim->start_time;
 		i++;
 	}
+	if (start_coder_threads(sim))
+		return (1);
 	if (pthread_create(&sim->scheduler_thread, NULL, scheduler_routine, sim))
 		return (1);
 	sim->scheduler_thread_created = 1;
 	if (pthread_create(&sim->monitor_thread, NULL, monitor_routine, sim))
 		return (1);
 	sim->monitor_thread_created = 1;
-	return (start_coder_threads(sim));
+	return (0);
 }
 
 void	join_threads(t_simulation *sim)
