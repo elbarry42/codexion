@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:39:33 by elbarry           #+#    #+#             */
-/*   Updated: 2026/10/02 17:13:00 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/05 13:59:07 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ t_request	*heap_remove_at(t_heap	*heap, size_t	index);
 /* Synchronization and logging. */
 int			simulation_stopped(t_simulation	*sim);
 void		request_stop(t_simulation *sim);
+void		log_burnout(t_simulation *sim, int coder_id);
 void		log_state(t_simulation	*sim, int coder_id, const char	*message);
 void		log_compile_start(t_simulation *sim, int coder_id);
 void		pair_ids(t_simulation *sim, t_coder *coder, int	*left, int *right);

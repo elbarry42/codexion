@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:51 by elbarry           #+#    #+#             */
-/*   Updated: 2026/10/02 14:31:47 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/05 13:56:45 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	log_state(t_simulation *sim, int coder_id, const char *message)
 	len = append_text(buffer, len, message);
 	buffer[len++] = '\n';
 	pthread_mutex_lock(&sim->output_mutex);
-	write(1, buffer, len);
+	if (!simulation_stopped(sim))
+		write(1, buffer, len);
 	pthread_mutex_unlock(&sim->output_mutex);
 }
 
@@ -80,6 +81,7 @@ void	log_compile_start(t_simulation *sim, int coder_id)
 	len = append_text(buffer, len, "is compiling");
 	buffer[len++] = '\n';
 	pthread_mutex_lock(&sim->output_mutex);
-	write(1, buffer, len);
+	if (!simulation_stopped(sim))
+		write(1, buffer, len);
 	pthread_mutex_unlock(&sim->output_mutex);
 }

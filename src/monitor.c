@@ -6,7 +6,7 @@
 /*   By: elbarry <elbarry@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 10:40:16 by elbarry           #+#    #+#             */
-/*   Updated: 2026/10/02 14:31:47 by elbarry          ###   ########.fr       */
+/*   Updated: 2026/10/05 13:55:14 by elbarry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ void	*monitor_routine(void *arg)
 		burned = find_burnout(sim, now);
 		if (burned)
 		{
-			log_state(sim, burned->id, "burned out");
-			request_stop(sim);
+			log_burnout(sim, burned->id);
 			return (NULL);
 		}
 		monitor_wait(sim, bounded_monitor_wait(next_deadline(sim, now) - now));
