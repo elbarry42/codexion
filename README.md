@@ -163,19 +163,3 @@ Artificial intelligence tools were used during the development of this project t
 
 All architectural decisions, implementation, debugging, testing and final validation were performed and reviewed by the project author.
 
-## Evaluation-oriented checklist
-
-- [x] C implementation.
-- [x] One thread per coder.
-- [x] One dongle between each pair of coders.
-- [x] Single-coder case cannot acquire two dongles and burns out.
-- [x] Mutex-protected dongle state.
-- [x] Mandatory dongle cooldown.
-- [x] FIFO and EDF arbitration.
-- [x] Deterministic EDF tie-breaker.
-- [x] Separate monitor thread.
-- [x] Serialized logging.
-- [x] Custom binary heap.
-- [x] Simulation stop conditions.
-- [x] Required Makefile targets.
-- [x] No libft dependency.
